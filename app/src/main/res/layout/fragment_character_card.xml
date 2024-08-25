@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CharacterCardFragment">
+    tools:context=".CharacterCardFragment"
+    android:padding="10dp">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.35"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
         <LinearLayout
@@ -19,12 +20,33 @@
             android:orientation="vertical"
             android:gravity="center">
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/empty_card"
+                android:layout_width="300dp"
+                android:layout_height="475dp"
+                android:background="@drawable/card_frame"
+                android:visibility="gone">
+
+                <com.beardedhen.androidbootstrap.BootstrapEditText
+                    android:id="@+id/guess_blank"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:backgroundTint="@color/bootstrap_gray_lightest"
+                    android:gravity="top|start"
+                    app:layout_constraintHeight_percent="0.78"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/card"
                 android:layout_width="300dp"
                 android:layout_height="475dp"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@drawable/card_frame">
+                android:background="@drawable/card_frame"
+                android:visibility="visible">
                 <LinearLayout
                     android:id="@+id/card_header"
                     android:layout_width="match_parent"
@@ -90,15 +112,18 @@
                     android:background="@drawable/btn"
                     android:text="@string/score"
                     app:backgroundTint="@color/bootstrap_brand_success" />
+
                 <ImageButton
                     android:id="@+id/show_list_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/btn"
-                    />
+                    android:backgroundTint="@color/bootstrap_brand_success"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="12dp"
+                    android:src="@drawable/baseline_visibility_off_24" />
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 

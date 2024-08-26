@@ -2,7 +2,9 @@ package com.lubuntum.guesswhoapp.cards;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
     @SerializedName("characterName")
     public String characterName;
     @SerializedName("present")

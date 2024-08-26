@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.lubuntum.guesswhoapp.cards.CardLoader;
+import com.lubuntum.guesswhoapp.history.HistoryStorage;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initCardData();
+        HistoryStorage.initHistoryStorage(getApplicationContext());
     }
 
     private void initCardData(){

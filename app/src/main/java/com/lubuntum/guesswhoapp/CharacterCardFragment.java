@@ -14,11 +14,12 @@ import android.widget.Toast;
 
 import com.lubuntum.guesswhoapp.cards.CardLoader;
 import com.lubuntum.guesswhoapp.databinding.FragmentCharacterCardBinding;
+import com.lubuntum.guesswhoapp.history.HistoryStorage;
+import com.lubuntum.guesswhoapp.history.entity.History;
 
 import java.util.Random;
 public class CharacterCardFragment extends Fragment {
     FragmentCharacterCardBinding binding;
-    private static int score = 0;
     public CharacterCardFragment() {
         // Required empty public constructor
     }
@@ -41,25 +42,30 @@ public class CharacterCardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        nextCardBtn();
-        scoreBtn();
-        showListBtn();
+        nextWinBtn();
+        nextLoseBtn();
+
+        showNotesBtn();
+        historyBtn();
     }
-    private void nextCardBtn(){
-        binding.nextImageBtn.setOnClickListener(v -> {
+
+    private void nextWinBtn(){
+        binding.nextWinBtn.setOnClickListener(v1 -> {
+            //Создать round с выйгрышем и сохранить
             binding.guessBlank.setText("");
             getNextCard();
         });
     }
-    private void scoreBtn(){
-        binding.addScoreBtn.setOnClickListener(v -> {
-            score++;
-            binding.addScoreBtn.setText(String.format(getString(R.string.score), score));
+
+    private void nextLoseBtn(){
+        binding.nextLoseBtn.setOnClickListener(v -> {
+            //Создать round с проигрышем и сохранить
+            binding.guessBlank.setText("");
+            getNextCard();
         });
-        binding.addScoreBtn.setText(String.format(getString(R.string.score), score));
     }
 
-    private void showListBtn(){
+    private void showNotesBtn(){
         binding.showListBtn.setOnClickListener(v -> {
             if(binding.card.getVisibility() == View.VISIBLE){
                 binding.card.setVisibility(View.GONE);
@@ -77,6 +83,14 @@ public class CharacterCardFragment extends Fragment {
                                 R.drawable.baseline_visibility_off_24));
             }
         });
+    }
+
+    private void historyBtn(){
+        binding.showHistoryBtn.setOnClickListener(v -> {
+            History history = HistoryStorage.getHistory();
+            Toast.makeText(getContext(), String.valueOf(history.getRoundList().size()), Toast.LENGTH_SHORT).show();
+        });
+
     }
 
     private void getNextCard(){

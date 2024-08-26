@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CharacterCardFragment"
-    android:padding="10dp">
+    tools:context=".CharacterCardFragment">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,6 +96,41 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center">
                 <Button
+                    android:id="@+id/next_lose_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:background="@drawable/btn"
+                    android:text="@string/next_image"
+                    app:backgroundTint="@color/bootstrap_brand_danger"/>
+                <Button
+                    android:id="@+id/next_win_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:background="@drawable/btn"
+                    android:text="@string/next_image"
+                    app:backgroundTint="@color/bootstrap_brand_success"
+                    android:layout_marginStart="10dp"/>
+                <ImageButton
+                    android:id="@+id/show_list_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/btn"
+                    android:backgroundTint="@color/bootstrap_brand_success"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="12dp"
+                    android:src="@drawable/baseline_visibility_off_24" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:visibility="gone">
+                <Button
                     android:id="@+id/next_image_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -112,20 +146,21 @@
                     android:background="@drawable/btn"
                     android:text="@string/score"
                     app:backgroundTint="@color/bootstrap_brand_success" />
-
-                <ImageButton
-                    android:id="@+id/show_list_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/btn"
-                    android:backgroundTint="@color/bootstrap_brand_success"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:padding="12dp"
-                    android:src="@drawable/baseline_visibility_off_24" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/show_history_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_history_24"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintVertical_bias="0.98"/>
 
     <ProgressBar
         android:visibility="gone"

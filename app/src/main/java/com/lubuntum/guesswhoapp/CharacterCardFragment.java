@@ -1,21 +1,28 @@
 package com.lubuntum.guesswhoapp;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.lubuntum.guesswhoapp.cards.CardLoader;
 import com.lubuntum.guesswhoapp.databinding.FragmentCharacterCardBinding;
 import com.lubuntum.guesswhoapp.history.HistoryStorage;
+import com.lubuntum.guesswhoapp.history.adapters.RoundAdapter;
 import com.lubuntum.guesswhoapp.history.entity.History;
+import com.lubuntum.guesswhoapp.history.entity.Round;
+import com.lubuntum.guesswhoapp.utils.DateUtil;
 
 import java.util.Random;
 public class CharacterCardFragment extends Fragment {
@@ -51,7 +58,9 @@ public class CharacterCardFragment extends Fragment {
 
     private void nextWinBtn(){
         binding.nextWinBtn.setOnClickListener(v1 -> {
-            //Создать round с выйгрышем и сохранить
+            if (CardLoader.currentCard != null) {
+                HistoryStorage.addRound(new Round(CardLoader.currentCard, DateUtil.getCurrentDate(), true));
+            }
             binding.guessBlank.setText("");
             getNextCard();
         });
@@ -59,7 +68,9 @@ public class CharacterCardFragment extends Fragment {
 
     private void nextLoseBtn(){
         binding.nextLoseBtn.setOnClickListener(v -> {
-            //Создать round с проигрышем и сохранить
+            if (CardLoader.currentCard != null) {
+                HistoryStorage.addRound(new Round(CardLoader.currentCard, DateUtil.getCurrentDate(), false));
+            }
             binding.guessBlank.setText("");
             getNextCard();
         });
@@ -88,7 +99,23 @@ public class CharacterCardFragment extends Fragment {
     private void historyBtn(){
         binding.showHistoryBtn.setOnClickListener(v -> {
             History history = HistoryStorage.getHistory();
-            Toast.makeText(getContext(), String.valueOf(history.getRoundList().size()), Toast.LENGTH_SHORT).show();
+            if (history.getRoundList() == null || history.getRoundList().isEmpty()) {
+                Toast.makeText(getContext(), "Ошибка при загрузки истории", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            RoundAdapter adapter = new RoundAdapter(getContext(), history.getRoundList());
+
+            RecyclerView roundsRecyclerView = new RecyclerView(getContext());
+            roundsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            roundsRecyclerView.setAdapter(adapter);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Ваша история");
+            builder.setView(roundsRecyclerView);
+            builder.setCancelable(true);
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();;
         });
 
     }

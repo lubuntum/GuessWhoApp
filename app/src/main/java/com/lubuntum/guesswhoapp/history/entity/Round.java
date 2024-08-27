@@ -1,5 +1,7 @@
 package com.lubuntum.guesswhoapp.history.entity;
 
+import androidx.annotation.NonNull;
+
 import com.lubuntum.guesswhoapp.cards.Card;
 
 import java.io.Serializable;

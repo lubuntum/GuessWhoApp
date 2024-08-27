@@ -1,5 +1,7 @@
 package com.lubuntum.guesswhoapp.cards;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -16,6 +18,12 @@ public class Card implements Serializable {
         this.characterName = characterName;
         this.present = present;
         this.imageId = imageId;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return String.format("%s : %s", characterName, present);
     }
 
     public String getCharacterName() {

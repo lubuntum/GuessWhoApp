@@ -22,22 +22,37 @@ public class HistoryStorage {
     public static void initHistoryStorage(Context context){
         preferences = context.getSharedPreferences(HISTORY_STORAGE_NAME, Context.MODE_PRIVATE );
     }
-    public static boolean updateHistory(List<Round> roundList){
+    public static boolean addRounds(List<Round> roundList){
         if (roundList.isEmpty()) return false;
 
-        History history = new History(gson.fromJson(preferences.getString(HISTORY_ROUNDS_NAME, ""), roundListType));
-        if (history.getRoundList() == null) history.setRoundList(new LinkedList<>());
+        History history = getCurrentHistory();
         history.getRoundList().addAll(roundList);
-        preferences.edit()
-                .putString(HISTORY_ROUNDS_NAME, gson.toJson(history.getRoundList()))
-                .apply();
+        updateCurrentHistory(history);
+        return true;
+    }
+    public static boolean addRound(Round round){
+        if (round == null) return false;
+        History history = getCurrentHistory();
+        history.getRoundList().add(round);
+        updateCurrentHistory(history);
         return true;
     }
     public static History getHistory(){
-        History history = new History(gson.fromJson(preferences.getString(HISTORY_ROUNDS_NAME, ""), roundListType));
+        History history = getCurrentHistory();
         if (history.getRoundList() == null)
             history.setRoundList(new LinkedList<>());
         return history;
+    }
+
+    private static History getCurrentHistory(){
+        History history =  new History(gson.fromJson(preferences.getString(HISTORY_ROUNDS_NAME, ""), roundListType));
+        if (history.getRoundList() == null) history.setRoundList(new LinkedList<>());
+        return history;
+    }
+    private static void updateCurrentHistory(History history){
+        preferences.edit()
+                .putString(HISTORY_ROUNDS_NAME, gson.toJson(history.getRoundList()))
+                .apply();
     }
 
 }

@@ -35,7 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CardLoader {
     public static final String LOAD_URL = "https://drive.google.com/uc?export=download&id=%s";
-    public static final String CARDS_DATA_ID = "1pK9UsalLCbt9etqxpd4pzAmb1Swumds-";
+    public static final String CARDS_DATA_ID = "1lBfk1q7JNwMkqaC7iqV_vg2_oADPwugn";
     public static List<Card> cardsList;
     public static Card currentCard;
     public static void loadCardsData(Context context){

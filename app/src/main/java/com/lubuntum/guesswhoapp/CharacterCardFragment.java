@@ -10,14 +10,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.lubuntum.guesswhoapp.cards.CardLoader;
 import com.lubuntum.guesswhoapp.databinding.FragmentCharacterCardBinding;
+import com.lubuntum.guesswhoapp.dialog.adapt.DialogAdapt;
 import com.lubuntum.guesswhoapp.history.HistoryStorage;
 import com.lubuntum.guesswhoapp.history.adapters.RoundAdapter;
 import com.lubuntum.guesswhoapp.history.entity.History;
@@ -51,9 +57,11 @@ public class CharacterCardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         nextWinBtn();
         nextLoseBtn();
-
         showNotesBtn();
+
+        expandBtn();
         historyBtn();
+        showInstructionBtn();
     }
 
     private void nextWinBtn(){
@@ -62,6 +70,8 @@ public class CharacterCardFragment extends Fragment {
                 HistoryStorage.addRound(new Round(CardLoader.currentCard, DateUtil.getCurrentDate(), true));
             }
             binding.guessBlank.setText("");
+            if(binding.appIcon.getVisibility() == View.VISIBLE)
+                binding.appIcon.setVisibility(View.GONE);
             getNextCard();
         });
     }
@@ -71,6 +81,8 @@ public class CharacterCardFragment extends Fragment {
             if (CardLoader.currentCard != null) {
                 HistoryStorage.addRound(new Round(CardLoader.currentCard, DateUtil.getCurrentDate(), false));
             }
+            if(binding.appIcon.getVisibility() == View.VISIBLE)
+                binding.appIcon.setVisibility(View.GONE);
             binding.guessBlank.setText("");
             getNextCard();
         });
@@ -111,13 +123,61 @@ public class CharacterCardFragment extends Fragment {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Ваша история");
+            builder.setIcon(R.drawable.app_ic_2);
             builder.setView(roundsRecyclerView);
             builder.setCancelable(true);
 
             AlertDialog alertDialog = builder.create();
-            alertDialog.show();;
+            alertDialog.show();
         });
+    }
 
+    private void showInstructionBtn(){
+        binding.instructionBtn.setOnClickListener(v -> {
+            ImageView imageView = new ImageView(getContext());
+            imageView.setImageDrawable(AppCompatResources.getDrawable(getContext(), R.drawable.incstuction_card));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, // Width
+                    LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+            );
+            imageView.setLayoutParams(params);
+            imageView.setAdjustViewBounds(true); // Maintain aspect ratio
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(0,
+                    (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()),
+                    0,
+                    0);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Инструкция");
+            builder.setView(imageView);
+            builder.setCancelable(true);
+            builder.setIcon(R.drawable.app_ic_2);
+
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+        });
+    }
+
+    private void expandBtn(){
+        binding.expandBtn.setOnClickListener(v -> {
+            if(binding.instructionBtn.getVisibility() == View.GONE){
+                binding.expandBtn.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                                getContext(),
+                                R.drawable.baseline_keyboard_arrow_down_24));
+                binding.instructionBtn.setVisibility(View.VISIBLE);
+                binding.showHistoryBtn.setVisibility(View.VISIBLE);
+                return;
+            }
+            binding.expandBtn.setImageDrawable(
+                    AppCompatResources.getDrawable(
+                            getContext(),
+                            R.drawable.baseline_keyboard_arrow_up_24));
+            binding.instructionBtn.setVisibility(View.GONE);
+            binding.showHistoryBtn.setVisibility(View.GONE);
+        });
     }
 
     private void getNextCard(){

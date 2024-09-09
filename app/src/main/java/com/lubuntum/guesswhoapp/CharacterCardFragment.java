@@ -2,6 +2,13 @@ package com.lubuntum.guesswhoapp;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,20 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Toast;
-
+import com.lubuntum.guesswhoapp.cards.Card;
 import com.lubuntum.guesswhoapp.cards.CardLoader;
 import com.lubuntum.guesswhoapp.databinding.FragmentCharacterCardBinding;
-import com.lubuntum.guesswhoapp.dialog.adapt.DialogAdapt;
 import com.lubuntum.guesswhoapp.history.HistoryStorage;
 import com.lubuntum.guesswhoapp.history.adapters.RoundAdapter;
 import com.lubuntum.guesswhoapp.history.entity.History;
@@ -181,13 +177,19 @@ public class CharacterCardFragment extends Fragment {
     }
 
     private void getNextCard(){
+        //Если карточки уже загружены, но они пустые (дошли до конца игры) то обновить список
+        if(CardLoader.cardsList != null && CardLoader.cardsList.isEmpty() && CardLoader.originalList != null)
+            for(Card card: CardLoader.originalList) CardLoader.cardsList.add(card.copy());
         if(CardLoader.cardsList == null || CardLoader.cardsList.size() == 0) {
             Toast.makeText(getContext(), "Возможно карточки еще загружаются...", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Random random = new Random();
-        CardLoader.currentCard = CardLoader.cardsList.get(random.nextInt(CardLoader.cardsList.size()));
+
+        Card nextCard = CardLoader.cardsList.get(random.nextInt(CardLoader.cardsList.size()));
+        CardLoader.cardsList.remove(nextCard);
+        CardLoader.currentCard = nextCard;
 
         binding.characterName.setText(CardLoader.currentCard.getCharacterName());
         binding.present.setText(CardLoader.currentCard.getPresent());

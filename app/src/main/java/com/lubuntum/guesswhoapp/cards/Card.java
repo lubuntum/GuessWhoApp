@@ -20,6 +20,10 @@ public class Card implements Serializable {
         this.imageId = imageId;
     }
 
+    public Card copy(){
+        return new Card(this.characterName, this.present, this.imageId);
+    }
+
     @NonNull
     @Override
     public String toString() {

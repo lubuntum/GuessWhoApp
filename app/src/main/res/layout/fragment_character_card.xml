@@ -164,16 +164,30 @@
         </LinearLayout>
     </ScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/session_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/baseline_groups_24"
+        app:layout_constraintRight_toLeftOf="@id/instruction_btn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintVertical_bias="0.98"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/instruction_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:layout_marginRight="10dp"
         android:src="@drawable/baseline_help_outline_24"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/show_history_btn"
+        app:layout_constraintRight_toLeftOf="@id/show_history_btn"
+        app:layout_constraintLeft_toRightOf="@id/instruction_btn"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintVertical_bias="0.98"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -181,19 +195,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:layout_marginRight="10dp"
         android:src="@drawable/baseline_history_24"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/expand_btn"
+        app:layout_constraintRight_toLeftOf="@id/expand_btn"
+        app:layout_constraintLeft_toRightOf="@id/show_history_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintVertical_bias="0.98"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/expand_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_keyboard_arrow_up_24"
+        android:src="@drawable/baseline_keyboard_arrow_left_24"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

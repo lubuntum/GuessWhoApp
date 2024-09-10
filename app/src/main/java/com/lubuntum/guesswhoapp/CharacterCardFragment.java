@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lubuntum.guesswhoapp.cards.Card;
 import com.lubuntum.guesswhoapp.cards.CardLoader;
 import com.lubuntum.guesswhoapp.databinding.FragmentCharacterCardBinding;
+import com.lubuntum.guesswhoapp.gamesession.SessionFragment;
 import com.lubuntum.guesswhoapp.history.HistoryStorage;
 import com.lubuntum.guesswhoapp.history.adapters.RoundAdapter;
 import com.lubuntum.guesswhoapp.history.entity.History;
@@ -58,6 +59,7 @@ public class CharacterCardFragment extends Fragment {
         expandBtn();
         historyBtn();
         showInstructionBtn();
+        sessionBtn();
     }
 
     private void nextWinBtn(){
@@ -101,6 +103,15 @@ public class CharacterCardFragment extends Fragment {
                                 getContext(),
                                 R.drawable.baseline_visibility_off_24));
             }
+        });
+    }
+
+    private void sessionBtn(){
+        binding.sessionGame.setOnClickListener(view -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.main_content, new SessionFragment(), "session_fragment")
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 
@@ -162,17 +173,19 @@ public class CharacterCardFragment extends Fragment {
                 binding.expandBtn.setImageDrawable(
                         AppCompatResources.getDrawable(
                                 getContext(),
-                                R.drawable.baseline_keyboard_arrow_down_24));
+                                R.drawable.baseline_keyboard_arrow_right_24));
                 binding.instructionBtn.setVisibility(View.VISIBLE);
                 binding.showHistoryBtn.setVisibility(View.VISIBLE);
+                binding.sessionGame.setVisibility(View.VISIBLE);
                 return;
             }
             binding.expandBtn.setImageDrawable(
                     AppCompatResources.getDrawable(
                             getContext(),
-                            R.drawable.baseline_keyboard_arrow_up_24));
+                            R.drawable.baseline_keyboard_arrow_left_24));
             binding.instructionBtn.setVisibility(View.GONE);
             binding.showHistoryBtn.setVisibility(View.GONE);
+            binding.sessionGame.setVisibility(View.GONE);
         });
     }
 

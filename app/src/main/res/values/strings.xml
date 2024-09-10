@@ -5,4 +5,8 @@
     <string name="generate_image">Generate</string>
     <string name="score">Score: %d</string>
     <string name="next_image">Next</string>
+    <string name="session_args">Параметры сессии</string>
+    <string name="session_code">Код сессии</string>
+    <string name="password">Пароль</string>
+    <string name="create_session">Создать сессию</string>
 </resources>

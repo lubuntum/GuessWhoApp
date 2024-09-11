@@ -30,12 +30,17 @@ public class SessionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //userListInit();
+        userListInit();
     }
     private void userListInit(){
         List<User> users = User.generateTestUsers(2);
         UserAdapter adapter = new UserAdapter(getContext(), users);
         binding.users.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.users.setAdapter(adapter);
+    }
+    private void createSession(){
+        binding.createSession.setOnClickListener((v)->{
+
+        });
     }
 }

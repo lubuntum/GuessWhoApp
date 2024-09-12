@@ -1,13 +1,16 @@
 package com.lubuntum.guesswhoapp.gamesession.entity;
 
+import com.google.firebase.database.Exclude;
 import com.lubuntum.guesswhoapp.cards.Card;
 
 import org.jetbrains.annotations.TestOnly;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
+    @Exclude
     public String id;
     public String name;
     public Card card;

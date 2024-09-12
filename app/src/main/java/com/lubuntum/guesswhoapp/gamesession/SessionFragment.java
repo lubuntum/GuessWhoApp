@@ -8,22 +8,26 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lubuntum.guesswhoapp.databinding.SessionFragmentBinding;
 import com.lubuntum.guesswhoapp.gamesession.adapters.UserAdapter;
 import com.lubuntum.guesswhoapp.gamesession.entity.User;
+import com.lubuntum.guesswhoapp.gamesession.viewmodels.SessionViewModel;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class SessionFragment extends Fragment {
     SessionFragmentBinding binding;
+    SessionViewModel viewModel;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = SessionFragmentBinding.inflate(inflater, container, false);
+        viewModel = new ViewModelProvider(this).get(SessionViewModel.class);
         return binding.getRoot();
     }
 
@@ -31,6 +35,7 @@ public class SessionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         userListInit();
+        createSessionBtnInit();
     }
     private void userListInit(){
         List<User> users = User.generateTestUsers(2);
@@ -38,9 +43,10 @@ public class SessionFragment extends Fragment {
         binding.users.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.users.setAdapter(adapter);
     }
-    private void createSession(){
+    private void createSessionBtnInit(){
         binding.createSession.setOnClickListener((v)->{
-
+            viewModel.createSession();
+            viewModel.saveSession();
         });
     }
 }

@@ -1,4 +1,4 @@
-package com.lubuntum.guesswhoapp.dialog.adapt;
+package com.lubuntum.guesswhoapp.utils;
 
 import android.content.Context;
 import android.view.Window;

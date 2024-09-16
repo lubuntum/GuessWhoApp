@@ -5,9 +5,11 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.lubuntum.guesswhoapp.cards.Card;
@@ -23,6 +25,7 @@ public class SessionViewModel extends AndroidViewModel {
     private static final String USERS_PATH = "users";
     private FirebaseDatabase firebase;
     public Session session;
+    public MutableLiveData<Boolean> sessionInProgress = new MutableLiveData<>();
     public SessionViewModel(@NonNull Application application) {
         super(application);
         firebase = FirebaseDatabase.getInstance("https://guesswhoapp-2aa3d-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -36,7 +39,9 @@ public class SessionViewModel extends AndroidViewModel {
     public void saveSession(){
         if(session == null) return;
         firebase.getReference(SESSIONS_PATH).child(session.key).setValue(session)
-                .addOnFailureListener(e -> Log.d("Firebase Error", e.getMessage()))
-                .addOnCompleteListener(task -> Log.d("Firebase Complete", task.toString()));
+                .addOnSuccessListener(unused -> {
+                    sessionInProgress.postValue(true);
+                })
+                .addOnFailureListener(e -> Log.d("Firebase Error", e.getMessage()));
     }
 }

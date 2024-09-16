@@ -15,44 +15,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp">
+            android:padding="10dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
+                android:orientation="horizontal"
+                android:gravity="center">
                 <LinearLayout
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/start_game_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:paddingRight="2dp"
                         android:src="@drawable/baseline_play_circle_24" />
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/player_count_container"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/player_count_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/baseline_groups_24" />
+                        <TextView
+                            android:id="@+id/users_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="11"
+                            android:textAlignment="center"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+                </LinearLayout>
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="2dp"
-                        android:src="@drawable/baseline_groups_24"/>
-                    <TextView
-                        android:id="@+id/users_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="11"
-                        android:textAlignment="center"
-                        android:layout_gravity="center" />
-                </LinearLayout>
+                    android:src="@drawable/baseline_logout_24"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -69,7 +76,7 @@
                     android:id="@+id/copy_key_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:src="@drawable/baseline_copy_all_24"/>
             </LinearLayout>
         </LinearLayout>

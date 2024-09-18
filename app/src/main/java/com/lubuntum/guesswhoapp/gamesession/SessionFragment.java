@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lubuntum.guesswhoapp.R;
@@ -19,8 +18,8 @@ import com.lubuntum.guesswhoapp.databinding.SessionFragmentBinding;
 import com.lubuntum.guesswhoapp.gamesession.adapters.UserAdapter;
 import com.lubuntum.guesswhoapp.gamesession.entity.User;
 import com.lubuntum.guesswhoapp.gamesession.viewmodels.SessionViewModel;
+import com.lubuntum.guesswhoapp.utils.CopyBuffer;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class SessionFragment extends Fragment {
@@ -36,10 +35,16 @@ public class SessionFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);;
+        super.onViewCreated(view, savedInstanceState);
+        //Preview window btns
         createSessionBtnInit();
+        connectToSessionBtnInit();
+        //Session header btns
+        copyDataToBufferBtnInit();
+        exitFromSessionBtnInit();
         //observers
         sessionInProgressObserverInit();
+        showStatusMessageObserver();
     }
     private void userListInit(){
         //Взять из локальнрго хран. только владельца и запихать как игрока.
@@ -55,14 +60,39 @@ public class SessionFragment extends Fragment {
             viewModel.saveSession();
         });
     }
+    private void connectToSessionBtnInit(){
+        binding.connectToSession.setOnClickListener(view -> {
+            String sessionKey = binding.sessionKeyEdit.getText().toString();
+            if (sessionKey.isEmpty()){
+                viewModel.statusMessage.setValue("Введите ключ");
+                return;
+            }
+            viewModel.connectToSession(sessionKey);
+        });
+    }
+    private void copyDataToBufferBtnInit(){
+        binding.copyKeyBtn.setOnClickListener(view -> {
+            if (viewModel.session.key.isEmpty()) {
+                Toast.makeText(getContext(), "Ошибка ключ не найден", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            CopyBuffer.addTextToBuffer(getContext(), viewModel.session.key);
+        });
+    }
+    private void exitFromSessionBtnInit(){
+        binding.exitSession.setOnClickListener(view -> {
+            viewModel.sessionInProgress.setValue(false);
+        });
+    }
     //Observers
-    public void sessionInProgressObserverInit(){
+    private void sessionInProgressObserverInit(){
         viewModel.sessionInProgress.observe(getViewLifecycleOwner(), isInProgress -> {
             if (!isInProgress){
                 Toast.makeText(getContext(), "Игра окончена", Toast.LENGTH_SHORT).show();
                 binding.sessionDialog.setVisibility(View.VISIBLE);
                 binding.sessionInfoContainer.setVisibility(View.GONE);
                 binding.users.setVisibility(View.GONE);
+                viewModel.session = null;
                 return;
             }
             binding.sessionDialog.setVisibility(View.GONE);
@@ -71,6 +101,12 @@ public class SessionFragment extends Fragment {
             userListInit();//Сюда передать users из viewmodel
             binding.usersCount.setText(String.valueOf(viewModel.session.sessionUsers.size()));
             binding.sessionKeyText.setText(String.format(getString(R.string.session_key_res), viewModel.session.key));
+        });
+    }
+    //status observer
+    private void showStatusMessageObserver(){
+        viewModel.statusMessage.observe(getViewLifecycleOwner(), message -> {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         });
     }
 }

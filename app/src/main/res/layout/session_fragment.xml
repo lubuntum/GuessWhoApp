@@ -57,15 +57,16 @@
                     </LinearLayout>
                 </LinearLayout>
                 <ImageView
+                    android:id="@+id/exit_session"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackground"
                     android:src="@drawable/baseline_logout_24"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1">
+                android:orientation="horizontal">
                 <TextView
                     android:id="@+id/session_key_text"
                     android:layout_width="wrap_content"
@@ -74,9 +75,10 @@
                     android:text="Ключ сессии : Avc23Dj_02L3KK#2" />
                 <ImageView
                     android:id="@+id/copy_key_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:foreground="?attr/selectableItemBackground"
                     android:src="@drawable/baseline_copy_all_24"/>
             </LinearLayout>
         </LinearLayout>
@@ -133,14 +135,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:hint="Ключ сессии"
-                        android:focusable="false"/>
+                        android:hint="Ключ сессии" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <ImageView
                     android:id="@+id/key_generate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_vpn_key_24"
+                    android:src="@drawable/baseline_content_paste_24"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     app:layout_constraintRight_toRightOf="parent"
@@ -162,7 +163,7 @@
                     android:hint="@string/password"/>
             </com.google.android.material.textfield.TextInputLayout>
             <Button
-                android:id="@+id/join_session"
+                android:id="@+id/connect_to_session"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?attr/selectableItemBackground"

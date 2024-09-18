@@ -19,6 +19,7 @@ public class Card implements Serializable {
         this.present = present;
         this.imageId = imageId;
     }
+    public Card(){}
 
     public Card copy(){
         return new Card(this.characterName, this.present, this.imageId);

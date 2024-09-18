@@ -19,6 +19,7 @@ public class User implements Serializable {
         this.card = card;
         this.name = name;
     }
+    public User(){}
 
     public String getId() {
         return id;

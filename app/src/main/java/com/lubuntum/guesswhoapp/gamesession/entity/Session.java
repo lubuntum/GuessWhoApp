@@ -32,6 +32,7 @@ public class Session implements Serializable {
         this.key = key;
         this.sessionUsers = sessionUsers;
     }
+    public Session(){}
 
     public String getId() {
         return id;

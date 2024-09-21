@@ -1,6 +1,7 @@
 package com.lubuntum.guesswhoapp.gamesession.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private List<User> users;
     private LayoutInflater inflater;
     private int resource = R.layout.user_card_item;
+    private Drawable defaultCardImg;
     public UserAdapter(Context context, List<User> users){
         this.context = context;
         this.users = users;
         this.inflater = LayoutInflater.from(context);
+        this.defaultCardImg = context.getDrawable(R.drawable.app_ic_2);
     }
     @NonNull
     @Override
@@ -37,10 +40,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
-        holder.characterName.setText(user.card.getCharacterName());
-        holder.present.setText(user.card.getPresent());
         holder.username.setText(user.getName());
-        if (holder.cardImg.getDrawable() == null) {
+
+        if (user.card != null && user.card.characterName != null
+                && user.card.present != null && user.card.imageId != null) { //if (holder.cardImg.getDrawable() == null)
+            holder.characterName.setText(user.card.getCharacterName());
+            holder.present.setText(user.card.getPresent());
             CardLoader.loadCardImageById(
                     context,
                     user.getCard(),

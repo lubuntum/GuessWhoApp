@@ -2,6 +2,7 @@ package com.lubuntum.guesswhoapp;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lubuntum.guesswhoapp.auth.AuthDialog;
+import com.lubuntum.guesswhoapp.auth.AuthStorage;
 import com.lubuntum.guesswhoapp.cards.Card;
 import com.lubuntum.guesswhoapp.cards.CardLoader;
 import com.lubuntum.guesswhoapp.databinding.FragmentCharacterCardBinding;
@@ -52,6 +55,8 @@ public class CharacterCardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        showAuthDialog();
+
         nextWinBtn();
         nextLoseBtn();
         showNotesBtn();
@@ -208,6 +213,12 @@ public class CharacterCardFragment extends Fragment {
         binding.present.setText(CardLoader.currentCard.getPresent());
         CardLoader.loadCardImageById(getContext(), CardLoader.currentCard, binding.cardImg, binding.loadProgress);
 
+    }
+    private void showAuthDialog(){
+        //Log.d("LOCAL_USER", String.valueOf(AuthStorage.getCurrentUser(getContext()).name));
+        if (AuthStorage.isUserExists(getContext())) return;
+        AuthDialog authDialog = new AuthDialog();
+        authDialog.show(getChildFragmentManager(), "auth_dialog");
     }
 
 }

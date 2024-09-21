@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lubuntum.guesswhoapp.auth.AuthStorage;
 import com.lubuntum.guesswhoapp.cards.Card;
 import com.lubuntum.guesswhoapp.gamesession.entity.Session;
 import com.lubuntum.guesswhoapp.gamesession.entity.User;
@@ -24,20 +25,23 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SessionViewModel extends AndroidViewModel {
-    private static final String SESSIONS_PATH = "sessions";
-    private static final String USERS_PATH = "users";
+    public static final String SESSIONS_PATH = "sessions";
+    public static final String USERS_PATH = "users";
+    public static final String FIREBASE_PATH = "https://guesswhoapp-2aa3d-default-rtdb.europe-west1.firebasedatabase.app/";
     private FirebaseDatabase firebase;
     public Session session;
     public MutableLiveData<Boolean> sessionInProgress = new MutableLiveData<>();
     public MutableLiveData<String> statusMessage = new MutableLiveData<>();
     public SessionViewModel(@NonNull Application application) {
         super(application);
-        firebase = FirebaseDatabase.getInstance("https://guesswhoapp-2aa3d-default-rtdb.europe-west1.firebasedatabase.app/");
+        firebase = FirebaseDatabase.getInstance(FIREBASE_PATH);
     }
     public void createSession(){
         List<User> users = new LinkedList<>();
         //Брать из локалки данные хоста (юзера)
-        users.add(new User("TestHostName", new Card("TestCardName", "TestPresent", "123fse21d")));
+        User host = AuthStorage.getCurrentUser(getApplication());
+        host.setHost(true);
+        users.add(host);
         session = new Session(SessionKeyGenerator.generateStr(12), users);
     }
     public void saveSession(){

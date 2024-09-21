@@ -14,6 +14,7 @@ public class User implements Serializable {
     public String id;
     public String name;
     public Card card;
+    public boolean isHost = false;
 
     public User(String name, Card card){
         this.card = card;
@@ -44,6 +45,15 @@ public class User implements Serializable {
     public void setCard(Card card) {
         this.card = card;
     }
+
+    public boolean isHost() {
+        return isHost;
+    }
+
+    public void setHost(boolean host) {
+        isHost = host;
+    }
+
     @TestOnly
     public static List<User> generateTestUsers(int count){
         List<User> testUsers = new LinkedList<>();

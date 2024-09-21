@@ -1,5 +1,7 @@
 package com.lubuntum.guesswhoapp.gamesession;
 
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -46,10 +49,10 @@ public class SessionFragment extends Fragment {
         sessionInProgressObserverInit();
         showStatusMessageObserver();
     }
-    private void userListInit(){
+    private void userListInit(List<User> users){
         //Взять из локальнрго хран. только владельца и запихать как игрока.
         //Затем те кто подсоединяется добавяться автоматически обсервером и realTimeDB
-        List<User> users = User.generateTestUsers(2);
+        //List<User> users = User.generateTestUsers(2);
         UserAdapter adapter = new UserAdapter(getContext(), users);
         binding.users.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.users.setAdapter(adapter);
@@ -57,6 +60,10 @@ public class SessionFragment extends Fragment {
     private void createSessionBtnInit(){
         binding.createSession.setOnClickListener((v)->{
             viewModel.createSession();
+            //Поскольку хост, кнопка старт активна
+            binding.startGameBtn.setFocusable(true);
+            ColorStateList colorStateList = ColorStateList.valueOf(ContextCompat.getColor(getContext(), com.beardedhen.androidbootstrap.R.color.bootstrap_brand_success));
+            binding.startGameBtn.setImageTintList(colorStateList);
             viewModel.saveSession();
         });
     }
@@ -93,12 +100,15 @@ public class SessionFragment extends Fragment {
                 binding.sessionInfoContainer.setVisibility(View.GONE);
                 binding.users.setVisibility(View.GONE);
                 viewModel.session = null;
+                binding.startGameBtn.setFocusable(false);
+                ColorStateList colorStateList = ColorStateList.valueOf(ContextCompat.getColor(getContext(), com.beardedhen.androidbootstrap.R.color.bootstrap_gray_light));
+                binding.startGameBtn.setImageTintList(colorStateList);
                 return;
             }
             binding.sessionDialog.setVisibility(View.GONE);
             binding.sessionInfoContainer.setVisibility(View.VISIBLE);
             binding.users.setVisibility(View.VISIBLE);
-            userListInit();//Сюда передать users из viewmodel
+            userListInit(viewModel.session.sessionUsers);//Сюда передать users из viewmodel
             binding.usersCount.setText(String.valueOf(viewModel.session.sessionUsers.size()));
             binding.sessionKeyText.setText(String.format(getString(R.string.session_key_res), viewModel.session.key));
         });
